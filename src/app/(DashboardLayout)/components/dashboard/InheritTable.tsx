@@ -92,7 +92,7 @@ const InheritList = () => {
                     id: BigInt(group.id), 
                     name: group.name,
                     totalAddresses: BigInt(group.totalAddresses), 
-                    totalAmount: web3.utils.fromWei(group.totalAmount, 'ether'), 
+                    totalAmount: web3 ? web3.utils.fromWei(group.totalAmount, 'ether') : '0',
                     releaseDate: BigInt(group.releaseDate), 
                     isPaid: group.isPaid,
                     details: [],
