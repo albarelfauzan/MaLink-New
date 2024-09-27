@@ -113,43 +113,56 @@ const InheritList = () => {
 
     const handleAddGroup = async (newGroup: any) => {
         try {
+            // Check if web3 is initialized
+            if (!web3) {
+                console.error('web3 is not initialized');
+                return; // Exit if web3 is not initialized
+            }
+    
             const accounts = await web3.eth.getAccounts();
             const releaseDateInSeconds = Math.floor(new Date(newGroup.date).getTime() / 1000);
-
+    
             await contract.methods.createGroup(newGroup.name, releaseDateInSeconds).send({
                 from: accounts[0],
                 gas: "3000000",
                 gasPrice: web3.utils.toWei('10', 'gwei')
             });
-
+    
             handleModalClose();
             await fetchGroups(accounts[0]);
         } catch (error) {
             console.error("Error creating group:", error);
         }
     };
+    
 
     const handleDetailOpen = async (groupId: bigint) => {
         console.log("Fetching recipients for group ID:", groupId.toString());
         setSelectedDetails([]);
-
+    
         try {
+            // Check if web3 is initialized
+            if (!web3) {
+                console.error('web3 is not initialized');
+                return; // Exit if web3 is not initialized
+            }
+    
             const accounts = await web3.eth.getAccounts();
             
             const response = await contract.methods.getGroupRecipients(Number(groupId)).call({
                 gas: "3000000",
                 from: accounts.length > 0 ? accounts[0] : undefined 
             }) as [string[], string[]];
-
+    
             const wallets = response[0];  
             const amounts = response[1];  
-
+    
             if (wallets.length === amounts.length && wallets.length > 0) {
                 const details = wallets.map((wallet: string, index: number) => ({
                     address: wallet,
                     amount: web3.utils.fromWei(amounts[index], 'ether'), 
                 }));
-
+    
                 setSelectedDetails(details);
             } else {
                 setSelectedDetails([]); 
@@ -157,9 +170,10 @@ const InheritList = () => {
         } catch (error) {
             console.error("Error fetching group recipients:", error);
         }
-
+    
         setOpenDetailModal(true);
     };
+    
 
     const handleAddAccountModalOpen = (groupId: bigint) => {
         setSelectedGroupId(groupId);
