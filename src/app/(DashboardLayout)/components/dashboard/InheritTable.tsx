@@ -160,7 +160,7 @@ const InheritList = () => {
             if (wallets.length === amounts.length && wallets.length > 0) {
                 const details = wallets.map((wallet: string, index: number) => ({
                     address: wallet,
-                    amount: web3 ? web3.utils.fromWei(amounts[index], 'ether'), 
+                    amount: web3 ? web3.utils.fromWei(amounts[index], 'ether') : '0', // Optional: provide a fallback value
                 }));
     
                 setSelectedDetails(details);
