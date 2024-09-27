@@ -274,37 +274,38 @@ const InheritList = () => {
                             <TableCell sx={{ color: "#A0AEC0" }}>No</TableCell>
                             <TableCell sx={{ color: "#A0AEC0" }}>Name</TableCell>
                             <TableCell sx={{ color: "#A0AEC0" }}>Release Date</TableCell>
-                            <TableCell sx={{ color: "#A0AEC0" }}>Total Addresses</TableCell>
+                            <TableCell sx={{ color: "#A0AEC0" }}>Total Account</TableCell>
                             <TableCell sx={{ color: "#A0AEC0" }}>Total Amount</TableCell>
                             <TableCell sx={{ color: "#A0AEC0" }}>Status</TableCell>
-                            <TableCell sx={{ color: "#A0AEC0" }}>Action</TableCell>
+                            <TableCell sx={{ color: "#A0AEC0" }}>Add Account</TableCell>
+                            <TableCell sx={{ color: "#A0AEC0" }}>Details</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {filteredProducts.map((product: { id: bigint; name: any; releaseDate: any; totalAddresses: { toString: () => any; }; totalAmount: any; isPaid: any; }, index: number) => (
                             <TableRow key={product.id.toString()}>
                                 <TableCell>
-                                    <Typography sx={{ fontSize: "15px", fontWeight: "500" }}>
+                                    <Typography sx={{ color:"#fff" }}>
                                         {index + 1}
                                     </Typography>
                                 </TableCell>
                                 <TableCell>
-                                    <Typography sx={{ fontSize: "15px", fontWeight: "500" }}>
+                                    <Typography sx={{ color:"#fff" }}>
                                         {product.name}
                                     </Typography>
                                 </TableCell>
                                 <TableCell>
-                                    <Typography variant="h6" sx={{ fontWeight: "600" }}>
+                                    <Typography  sx={{ color:"#fff" }}>
                                         {new Date(Number(product.releaseDate) * 1000).toLocaleString()}
                                     </Typography>
                                 </TableCell>
                                 <TableCell>
-                                    <Typography variant="h6" sx={{ fontWeight: "600" }}>
+                                    <Typography  sx={{ color:"#fff" }}>
                                         {product.totalAddresses.toString()}
                                     </Typography>
                                 </TableCell>
                                 <TableCell>
-                                    <Typography variant="h6" sx={{ fontWeight: "600" }}>
+                                    <Typography  sx={{ color:"#fff" }}>
                                         {product.totalAmount} BTT
                                     </Typography>
                                 </TableCell>
@@ -320,24 +321,24 @@ const InheritList = () => {
                                     />
                                 </TableCell>
                                 <TableCell>
-                                    <Box display="flex" alignItems="center">
                                         <Button
-                                            sx={{ p: 1 }}
-                                            variant="contained"
-                                            color="secondary"
-                                            onClick={() => handleDetailOpen(product.id)}
-                                        >
-                                            Details
-                                        </Button>
-                                        <Button
-                                            sx={{ p: 1, ml: 1 }}
-                                            variant="contained"
-                                            color="secondary"
+                                            sx={{ color: "#01B574",
+                                                textTransform: "none",
+                                                fontWeight: "bold", }}
                                             onClick={() => handleAddAccountModalOpen(product.id)}
                                         >
                                             Add Account
                                         </Button>
-                                    </Box>
+                                </TableCell>
+                                <TableCell>
+                                <Button
+                                            sx={{ color: "#AC6AEC",
+                                                textTransform: "none",
+                                                fontWeight: "bold", }}
+                                            onClick={() => handleDetailOpen(product.id)}
+                                        >
+                                            Details
+                                        </Button>
                                 </TableCell>
                             </TableRow>
                         ))}
