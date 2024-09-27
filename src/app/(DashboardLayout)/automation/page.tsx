@@ -5,7 +5,7 @@ import InheritList from '@/app/(DashboardLayout)/components/dashboard/InheritTab
 
 const Inherit = () => {
   return (
-    <PageContainer title="Inherit" description="Inherit">
+    <PageContainer title="Automation" description="Automation">
       <Box>
           <Grid item xs >
             <InheritList />
