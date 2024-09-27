@@ -6,8 +6,8 @@ import { useRouter } from 'next/navigation';
 interface AddAccountModalProps {
     open: boolean;
     onClose: () => void;
-    groupId: bigint | null; // Menambahkan props groupId untuk menampung ID grup yang dipilih
-    fetchGroups: (userAddress: string) => Promise<void>; // Fungsi untuk fetch ulang data setelah menambahkan akun
+    groupId: bigint | null;
+    fetchGroups: (userAddress: string) => Promise<void>;
 }
 
 const AddAccountModal: React.FC<AddAccountModalProps> = ({ open, onClose, groupId, fetchGroups }) => {
@@ -16,7 +16,7 @@ const AddAccountModal: React.FC<AddAccountModalProps> = ({ open, onClose, groupI
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [openSnackbar, setOpenSnackbar] = useState(false);
-    const [snackbarType, setSnackbarType] = useState<'success' | 'error'>('success'); // Snackbar type for success/error
+    const [snackbarType, setSnackbarType] = useState<'success' | 'error'>('success');
     const router = useRouter(); 
 
     const handleCloseSnackbar = () => {
@@ -24,8 +24,8 @@ const AddAccountModal: React.FC<AddAccountModalProps> = ({ open, onClose, groupI
     };
 
     const handleAddAccount = async () => {
-        if (!groupId) {
-            setErrorMessage("Group ID is not selected.");
+        if (!groupId || !web3 || !contract) {
+            setErrorMessage("Group ID is not selected or web3 is not initialized.");
             setSnackbarType('error');
             setOpenSnackbar(true);
             return;
@@ -35,29 +35,29 @@ const AddAccountModal: React.FC<AddAccountModalProps> = ({ open, onClose, groupI
             const accounts = await web3.eth.getAccounts();
             const recipientAddress = address;
             const amountInEther = amount;
-    
+
             if (!recipientAddress || !amountInEther) {
                 setErrorMessage("Recipient address and amount are required.");
                 setSnackbarType('error');
                 setOpenSnackbar(true);
                 return;
             }
-    
+
             const amountInWei = web3.utils.toWei(amountInEther, 'ether');
-    
+
             await contract.methods.addRecipient(Number(groupId), recipientAddress).send({
                 from: accounts[0],
                 value: amountInWei,
                 gas: "3000000",
                 gasPrice: web3.utils.toWei('10', 'gwei')
             });
-    
+
             setSuccessMessage(`Successfully added recipient: ${recipientAddress} with amount ${amountInEther} Ether.`);
             setSnackbarType('success');
             setOpenSnackbar(true);
 
             await fetchGroups(accounts[0]); // Refresh the groups after adding a recipient
-            onClose(); // Tutup modal setelah berhasil menambahkan akun
+            onClose(); // Close the modal after success
         } catch (error) {
             console.error("Error adding recipient:", error);
             setErrorMessage("Failed to add recipient. See console for details.");
@@ -76,14 +76,14 @@ const AddAccountModal: React.FC<AddAccountModalProps> = ({ open, onClose, groupI
                             label="Address"
                             fullWidth
                             value={address}
-                            onChange={(e) => setAddress(e.target.value)}
+                            onChange={(e: { target: { value: any; }; }) => setAddress(e.target.value)}
                             sx={{ input: { color: "#fff" }, label: { color: "#fff" } }}
                         />
                         <TextField
                             label="Amount"
                             fullWidth
                             value={amount}
-                            onChange={(e) => setAmount(e.target.value)}
+                            onChange={(e: { target: { value: any; }; }) => setAmount(e.target.value)}
                             sx={{ input: { color: "#fff" }, label: { color: "#fff" } }}
                         />
                         <Button variant="contained" sx={{ bgcolor: "#AC6AEC" }} onClick={handleAddAccount}>
@@ -93,13 +93,12 @@ const AddAccountModal: React.FC<AddAccountModalProps> = ({ open, onClose, groupI
                 </DialogContent>
             </Dialog>
 
-            {/* Snackbar for Success/Failure Alerts */}
             <Snackbar 
                 open={openSnackbar} 
                 autoHideDuration={6000} 
                 onClose={handleCloseSnackbar}
-                anchorOrigin={{ vertical: 'top', horizontal: 'right' }} // Position top-right
-                sx={{ zIndex: 1400 }} // Set z-index higher than sidebar
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                sx={{ zIndex: 1400 }}
             >
                 <Alert onClose={handleCloseSnackbar} severity={snackbarType} sx={{ width: '100%' }}>
                     {snackbarType === 'success' ? successMessage : errorMessage}

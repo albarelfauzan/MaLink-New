@@ -51,7 +51,7 @@ const AddGroupModal: React.FC<AddGroupModalProps> = ({ open, onClose, onAddGroup
                             type="datetime-local"
                             fullWidth
                             value={date}
-                            onChange={(e) => setDate(e.target.value)}
+                            onChange={(e: { target: { value: any; }; }) => setDate(e.target.value)}
                             InputLabelProps={{
                                 shrink: true,
                                 style: { color: "#fff" },

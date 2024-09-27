@@ -1,8 +1,9 @@
 import Web3 from "web3";
 import ABI from "./ABI.json";
 
-let web3;
-let contract;
+// Tentukan tipe untuk web3 dan contract
+let web3: Web3 | undefined;
+let contract: Web3.eth.Contract | undefined;
 
 if (typeof window !== 'undefined' && typeof window.ethereum !== 'undefined') {
   web3 = new Web3(window.ethereum);
