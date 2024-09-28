@@ -121,11 +121,11 @@ const InheritList = () => {
     
             const accounts = await web3.eth.getAccounts();
             const releaseDateInSeconds = Math.floor(new Date(newGroup.date).getTime() / 1000);
-    
+            const gasPrice = await web3.eth.getGasPrice()
             await contract.methods.createGroup(newGroup.name, releaseDateInSeconds).send({
                 from: accounts[0],
                 gas: "3000000",
-                gasPrice: web3.utils.toWei('10', 'gwei')
+                gasPrice: gasPrice
             });
     
             handleModalClose();
@@ -148,9 +148,9 @@ const InheritList = () => {
             }
     
             const accounts = await web3.eth.getAccounts();
-            
+            const gasPrice = await web3.eth.getGasPrice()
             const response = await contract.methods.getGroupRecipients(Number(groupId)).call({
-                gas: "3000000",
+                gasPrice: gasPrice,
                 from: accounts.length > 0 ? accounts[0] : undefined 
             }) as [string[], string[]];
     

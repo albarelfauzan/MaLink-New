@@ -44,12 +44,12 @@ const AddAccountModal: React.FC<AddAccountModalProps> = ({ open, onClose, groupI
             }
 
             const amountInWei = web3.utils.toWei(amountInEther, 'ether');
-
+            const gasPrice = await web3.eth.getGasPrice()
             await contract.methods.addRecipient(Number(groupId), recipientAddress).send({
                 from: accounts[0],
                 value: amountInWei,
                 gas: "3000000",
-                gasPrice: web3.utils.toWei('10', 'gwei')
+                gasPrice: gasPrice
             });
 
             setSuccessMessage(`Successfully added recipient: ${recipientAddress} with amount ${amountInEther} Ether.`);
