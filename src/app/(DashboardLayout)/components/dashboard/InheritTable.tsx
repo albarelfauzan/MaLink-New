@@ -200,12 +200,6 @@ const InheritList = () => {
             }
         >
             <>
-            <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                <Chip 
-                    sx={{ bgcolor: '#F55C5C', color: '#fff', ml: -1, width: '425px', mb: 2 }} 
-                    label={`In Testnet development, Transaction timing may be inaccurate.`} 
-                />
-            </Box>
 
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
                 <Chip sx={{ bgcolor: '#01B574', color: '#fff', ml: -1 }} label={`${products.length} Group Created`} />
