@@ -49,17 +49,17 @@ const InheritList = () => {
     const connectWallet = async () => {
         try {
             if (window.ethereum) {
-                const chainId = '0x405'; 
+                const chainId = '0xc7'; 
                 const networkData = [{
-                    chainId: chainId,
-                    chainName: 'BTTC Testnet',
+                    chainId: 199,
+                    chainName: 'BitTorrent Chain Mainnet',
                     nativeCurrency: {
                         name: 'BTT',
                         symbol: 'BTT',
                         decimals: 18,
                     },
-                    rpcUrls: ['https://pre-rpc.bt.io/'],
-                    blockExplorerUrls: ['https://testscan.bt.io/'],
+                    rpcUrls: ['https://rpc.bittorrentchain.io'],
+                    blockExplorerUrls: ['https://bttcscan.com'],
                 }];
                 
                 await (window.ethereum as any).request({
