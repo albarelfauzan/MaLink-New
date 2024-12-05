@@ -51,7 +51,7 @@ const InheritList = () => {
             if (window.ethereum) {
                 const chainId = '0xc7'; 
                 const networkData = [{
-                    chainId: 199,
+                    chainId: chainId,
                     chainName: 'BitTorrent Chain Mainnet',
                     nativeCurrency: {
                         name: 'BTT',
